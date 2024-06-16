@@ -1,0 +1,93 @@
+/* 基础样式 */
+body {
+    /* background-color: #f8f8ff; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh; /* 使用视口高度来定位 */
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1 {
+    margin-bottom: 20px; /* 添加一些空间在标题和表单之间 */
+    text-align: center; /* 确保标题文本居中 */
+}
+
+
+/* 优化表单样式
+给表单添加一些样式，使其看起来更美观。 */
+form {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+input[type="file"], input[type="submit"] {
+    margin: 5px 0;
+}
+
+/* 为按钮添加样式
+使按钮更具吸引力，并添加禁用状态样式。 */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #ccc;
+}
+
+/* 图片展示优化
+为图片展示区域添加边框和阴影，提升视觉效果。 */
+img {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin: 10px 0;
+}
+
+/* 响应式图片布局
+使用CSS的媒体查询为不同屏幕尺寸优化图片大小。 */
+@media (max-width: 600px) {
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* 隐藏匹配图片直到加载
+使用CSS来隐藏匹配图片，直到它被成功加载。 */
+#matchedImageContainer {
+    display: none;
+}
+
+
+/* 使用CSS来设置横向排列的样式： */
+.image-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.image-wrapper {
+    margin: 10px;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}

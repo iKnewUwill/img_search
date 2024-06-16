@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>图像匹配算法</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </head>
+  <body>
+    <h1>图像匹配算法</h1>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+    </form>
+    <!-- 按钮用于触发上传文件的函数 -->
+
+    <!-- 匹配按钮 -->
+    <button id="matchButton">匹配图片（勿多次点击）</button>
+    <div id="loadingMessage" style="display:none;">正在匹配,请等待至少15S,请稍候...</div>
+
+    <div class="image-container">
+      <div class="image-wrapper">
+          <h2>Original Image:</h2>
+          <img id="originalImage" src="{{ url_for('uploaded_file', filename=filename) }}" alt="Original Image" style="max-width: 300px; max-height: 200px;">
+      </div>
+      <div class="image-wrapper">
+          <h2>Processed Image:</h2>
+          <img src="{{ image_url }}" alt="Processed Image" style="max-width: 300px; max-height: 400px;">
+      </div>
+  </div>
+
+  <div class="image-container">
+    <div class="image-wrapper">
+        <h2 id="matchedImageTitle" style="display:none;">Matched Image:</h2>
+        <!-- 设置图片放大的样式 -->
+        <img id="matchedImage" src="{{ matched_image_url }}" alt="Matched Image" style="max-width: 800px; max-height: 800px; width: 100%; height: auto; display:none;">
+        <!-- 新增一个元素来显示用时 -->
+        <div id="timingInfo" style="margin-top: 10px; font-size: 14px; display: none;">查找花费： <span id="processingTime">0</span> ms</div>
+    </div>
+</div>
+
+  </body>
+</html>
