@@ -79,6 +79,7 @@ def match_image():
     if not img_name:
         return jsonify({'error': 'No image name provided'}), 400
     
+    # 检索图片
     query = img_name
     scores = db.retrieve(query)
     db.show_results(query, scores, figsize=(30, 10))
