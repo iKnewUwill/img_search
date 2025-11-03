@@ -1,2 +1,6 @@
-data
-实验报告
+__pycache__
+/data/archive
+/data/imgset
+*.pickle
+*.hdf5
+/data/test.py

@@ -1,4 +1,8 @@
 import os
+import sys
+# 添加当前目录到Python路径，确保能找到app模块
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 import cv2
@@ -16,6 +20,24 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 # app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['ALLOWED_EXTENSIONS'] = {'jpg'}
 app.config['FILE_NAME'] = ''
+
+
+orb = cbir.descriptors.AlexNet()
+# orb = cbir.descriptors.Orb()
+
+# 创建并加载词表
+voc = cbir.encoders.VocabularyTree(n_branches=4, depth=4, descriptor=orb)
+voc.load()
+
+# 初始化数据库
+# dataset = cbir.Dataset()
+# dataset = cbir.Dataset("data/imgset")
+dataset = cbir.Dataset("data/archive")
+db = cbir.Database(dataset, encoder=voc)
+db.load()
+
+
+app.run(debug=True)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -105,22 +127,4 @@ def match_image():
     # 返回匹配图片的URL
     return jsonify({'matched_image_url': result_img_url})
 
-if __name__ == '__main__':
-
-
-    orb = cbir.descriptors.AlexNet()
-    # orb = cbir.descriptors.Orb()
-
-    # 创建并加载词表
-    voc = cbir.encoders.VocabularyTree(n_branches=4, depth=4, descriptor=orb)
-    voc.load()
-
-    # 初始化数据库
-    # dataset = cbir.Dataset()
-    # dataset = cbir.Dataset("data/imgset")
-    dataset = cbir.Dataset("data/archive")
-    db = cbir.Database(dataset, encoder=voc)
-    db.load()
-
-
-    app.run(debug=True)
+# if __name__ == '__main__':
