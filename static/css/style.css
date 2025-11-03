@@ -1,93 +1,375 @@
+/* CSS变量和主题系统 */
+:root {
+    /* 亮色主题变量 */
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #4cc9f0;
+    --background-color: #f8f9fa;
+    --card-background: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --border-color: #dee2e6;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s ease;
+    --border-radius: 12px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* 暗黑主题变量 */
+[data-theme="dark"] {
+    --primary-color: #4895ef;
+    --secondary-color: #4cc9f0;
+    --accent-color: #7209b7;
+    --background-color: #121212;
+    --card-background: #1e1e1e;
+    --text-primary: #f8f9fa;
+    --text-secondary: #adb5bd;
+    --border-color: #343a40;
+    --success-color: #4cc9f0;
+    --error-color: #f72585;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.4);
+}
+
 /* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    /* background-color: #f8f8ff; */
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    height: 100vh; /* 使用视口高度来定位 */
+    min-height: 100vh;
     margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
+    padding: var(--spacing-lg);
+    transition: var(--transition);
 }
 
-h1 {
-    margin-bottom: 20px; /* 添加一些空间在标题和表单之间 */
-    text-align: center; /* 确保标题文本居中 */
-}
-
-
-/* 优化表单样式
-给表单添加一些样式，使其看起来更美观。 */
-form {
-    margin: 20px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+/* 主题切换按钮 */
+.theme-toggle {
+    position: fixed;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
-}
-input[type="file"], input[type="submit"] {
-    margin: 5px 0;
-}
-
-/* 为按钮添加样式
-使按钮更具吸引力，并添加禁用状态样式。 */
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
+    justify-content: center;
     cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    z-index: 100;
 }
 
-button:disabled {
-    background-color: #ccc;
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-hover);
 }
 
-/* 图片展示优化
-为图片展示区域添加边框和阴影，提升视觉效果。 */
-img {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    margin: 10px 0;
+.theme-toggle svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--text-primary);
 }
 
-/* 响应式图片布局
-使用CSS的媒体查询为不同屏幕尺寸优化图片大小。 */
-@media (max-width: 600px) {
-    img {
-        max-width: 100%;
-        height: auto;
-    }
+/* 标题样式 */
+h1 {
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 0.8s ease-in-out;
 }
 
-/* 隐藏匹配图片直到加载
-使用CSS来隐藏匹配图片，直到它被成功加载。 */
-#matchedImageContainer {
+h2 {
+    margin-bottom: var(--spacing-md);
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* 上传区域样式 */
+.upload-container {
+    background: var(--card-background);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-lg) 0;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    min-width: 300px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.upload-container:hover,
+.upload-container.drag-over {
+    border-color: var(--primary-color);
+    background-color: rgba(67, 97, 238, 0.05);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.upload-container.drag-over {
+    animation: pulse 1.5s infinite;
+}
+
+.upload-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+}
+
+.upload-text {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.upload-hint {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+.upload-input {
     display: none;
 }
 
+/* 匹配按钮样式 */
+#matchButton {
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    margin-top: var(--spacing-md);
+}
 
-/* 使用CSS来设置横向排列的样式： */
+#matchButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+#matchButton:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+#matchButton:disabled {
+    background: var(--text-secondary);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 加载消息样式 */
+#loadingMessage {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    color: var(--primary-color);
+    font-weight: 600;
+    animation: fadeIn 0.5s ease-in-out;
+    display: none;
+}
+
+/* 图片容器样式 */
 .image-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .image-wrapper {
-    margin: 10px;
-    text-align: center;
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-img {
+.image-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.image-wrapper img {
     max-width: 100%;
     height: auto;
-    display: block;
-    margin: 0 auto;
+    border-radius: calc(var(--border-radius) - 4px);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.image-wrapper img:hover {
+    transform: scale(1.02);
+}
+
+/* 结果容器特殊样式 */
+.result-container {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#timingInfo {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(67, 97, 238, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--primary-color);
+    font-weight: 600;
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 进度条样式 */
+.progress-container {
+    width: 100%;
+    background: var(--border-color);
+    border-radius: 20px;
+    margin-top: var(--spacing-md);
+    overflow: hidden;
+    height: 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 20px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* 成功和错误提示 */
+.notification {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    color: white;
+    font-weight: 600;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: var(--shadow-hover);
+}
+
+.notification.success {
+    background: var(--success-color);
+}
+
+.notification.error {
+    background: var(--error-color);
+}
+
+.notification.visible {
+    opacity: 1;
+}
+
+/* 动画定义 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        border-color: var(--border-color);
+    }
+    50% {
+        border-color: var(--primary-color);
+    }
+    100% {
+        border-color: var(--border-color);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    body {
+        padding: var(--spacing-md);
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .upload-container {
+        min-width: auto;
+        padding: var(--spacing-lg);
+    }
+
+    .image-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        padding: var(--spacing-md) 0;
+    }
+
+    .theme-toggle {
+        top: var(--spacing-md);
+        right: var(--spacing-md);
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .image-wrapper {
+        padding: var(--spacing-md);
+    }
 }
