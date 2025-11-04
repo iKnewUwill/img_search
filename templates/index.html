@@ -1,44 +1,98 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN" class="theme-light">
   <head>
     <meta charset="utf-8">
-    <title>图像匹配算法</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能图像匹配系统</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
   <body>
-    <h1>图像匹配算法</h1>
-    <form method="post" enctype="multipart/form-data">
-      <input type="file" name="file">
-      <input type="submit" value="Upload">
-    </form>
-    <!-- 按钮用于触发上传文件的函数 -->
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+      <i class="fas fa-moon"></i>
+    </button>
 
-    <!-- 匹配按钮 -->
-    <button id="matchButton">匹配图片（勿多次点击）</button>
-    <div id="loadingMessage" style="display:none;">正在匹配,请等待至少15S,请稍候...</div>
+    <header class="app-header">
+      <h1 class="app-title">智能图像匹配系统</h1>
+    </header>
 
-    <div class="image-container">
-      <div class="image-wrapper">
-          <h2>Original Image:</h2>
-          <img id="originalImage" src="{{ url_for('uploaded_file', filename=filename) }}" alt="Original Image" style="max-width: 300px; max-height: 200px;">
-      </div>
-      <div class="image-wrapper">
-          <h2>Processed Image:</h2>
-          <img src="{{ image_url }}" alt="Processed Image" style="max-width: 300px; max-height: 400px;">
-      </div>
-  </div>
+    <main class="app-main">
+      <!-- Upload Section -->
+      <section class="upload-section">
+        <div id="dropArea" class="drop-area">
+          <div class="drop-area-content">
+            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+            <p class="drop-area-text">拖拽图片到此处或</p>
+            <label for="fileInput" class="upload-button">
+              <span>选择文件</span>
+              <input type="file" id="fileInput" name="file" class="file-input" accept="image/*">
+            </label>
+            <p class="file-format-hint">支持 JPG、PNG、WEBP 等格式</p>
+          </div>
+        </div>
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="uploaded_file" id="uploadedFile">
+        </form>
+        <div id="uploadProgress" class="progress-container" style="display: none;">
+          <div class="progress-bar"></div>
+          <span class="progress-text">0%</span>
+        </div>
+      </section>
 
-  <div class="image-container">
-    <div class="image-wrapper">
-        <h2 id="matchedImageTitle" style="display:none;">Matched Image:</h2>
-        <!-- 设置图片放大的样式 -->
-        <img id="matchedImage" src="{{ matched_image_url }}" alt="Matched Image" style="max-width: 800px; max-height: 800px; width: 100%; height: auto; display:none;">
-        <!-- 新增一个元素来显示用时 -->
-        <div id="timingInfo" style="margin-top: 10px; font-size: 14px; display: none;">查找花费： <span id="processingTime">0</span> ms</div>
+      <!-- Action Section -->
+      <section class="action-section">
+        <button id="matchButton" class="primary-button">
+          <i class="fas fa-search"></i> 匹配图片
+        </button>
+        <div id="loadingMessage" class="loading-indicator" style="display: none;">
+          <div class="loading-spinner"></div>
+          <span>正在匹配，请稍候...</span>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section class="results-section">
+        <!-- Original and Processed Images -->
+        <div class="image-grid">
+          <div class="image-card">
+            <h3 class="image-title">原始图像</h3>
+            <div class="image-placeholder">
+              <img id="originalImage" src="{{ url_for('uploaded_file', filename=filename) }}" alt="原始图像" class="result-image" loading="lazy">
+            </div>
+          </div>
+          <div class="image-card">
+            <h3 class="image-title">处理后图像</h3>
+            <div class="image-placeholder">
+              <img src="{{ image_url }}" alt="处理后图像" class="result-image" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <!-- Matched Image -->
+        <div class="matched-image-container" style="display: none;">
+          <h3 class="image-title" id="matchedImageTitle">匹配结果</h3>
+          <div class="image-placeholder matched-placeholder">
+            <img id="matchedImage" src="{{ matched_image_url }}" alt="匹配结果" class="result-image matched-image" loading="lazy">
+          </div>
+          <div id="timingInfo" class="timing-info">
+            <i class="fas fa-clock"></i> 查找花费： <span id="processingTime">0</span> ms
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Notification System -->
+    <div id="notification" class="notification" style="display: none;">
+      <i class="fas" id="notificationIcon"></i>
+      <span id="notificationMessage"></span>
+      <button class="notification-close" aria-label="关闭通知">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-</div>
 
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>
